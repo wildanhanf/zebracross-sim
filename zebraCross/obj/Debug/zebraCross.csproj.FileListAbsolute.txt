@@ -1,0 +1,11 @@
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\bin\Debug\zebraCross.exe.config
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\bin\Debug\zebraCross.exe
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\bin\Debug\zebraCross.pdb
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.csproj.AssemblyReference.cache
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.csproj.SuggestedBindingRedirects.cache
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.Form1.resources
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.Properties.Resources.resources
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.csproj.GenerateResource.cache
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.csproj.CoreCompileInputs.cache
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.exe
+C:\Praktikum\Sem 5\Grafika Komputer\code\zebraCross\zebraCross\obj\Debug\zebraCross.pdb
