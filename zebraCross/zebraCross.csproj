@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +79,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\elise_walk_jump%408x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\elise_walk%408x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\walk-5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
