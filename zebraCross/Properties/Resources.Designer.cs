@@ -63,6 +63,16 @@ namespace zebraCross.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap carOrange_removebg {
+            get {
+                object obj = ResourceManager.GetObject("carOrange_removebg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap walk_0 {
             get {
                 object obj = ResourceManager.GetObject("walk_0", resourceCulture);

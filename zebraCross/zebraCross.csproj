@@ -104,5 +104,14 @@
   <ItemGroup>
     <None Include="Resources\walk-5.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\car1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\carOrange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\carOrange-removebg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

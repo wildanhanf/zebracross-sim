@@ -16,6 +16,7 @@ namespace zebraCross
         Bitmap walkFrame;
         Bitmap[] walkFrames;
         Timer walkTimer = new Timer();
+        Timer carTimer = new Timer();
         float positionX = 100;
         float positionY = 350;
         int walkSpriteIndex = 0;
@@ -28,17 +29,20 @@ namespace zebraCross
 
             //auto maximized window ke screen desktop
             // this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            button1.BackColor = Color.Red;
             button1.FlatStyle = FlatStyle.Flat;
             button1.FlatAppearance.BorderSize = 0;
-            button2.BackColor = Color.Yellow;
 
             button2.FlatStyle = FlatStyle.Flat;
             button2.FlatAppearance.BorderSize = 0;
 
-            button3.BackColor = Color.Green;
             button3.FlatStyle = FlatStyle.Flat;
             button3.FlatAppearance.BorderSize = 0;
+
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.FlatAppearance.BorderSize = 0;
+
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.FlatAppearance.BorderSize = 0;
 
             // split walking sprite
             walkFrames = new Bitmap[] {
@@ -104,6 +108,31 @@ namespace zebraCross
             };
             g.FillPolygon(Brushes.Black, forVehicles2);
 
+            //bikin traffic light untuk pejalan kaki (tiang)
+            PointF p1 = new PointF(962, 270);
+            PointF p2 = new PointF(982, 270);
+            PointF p3 = new PointF(982, 420);
+            PointF p4 = new PointF(962, 420);
+
+            //diubah menjadi array
+            PointF[] forPedestrian1 ={
+                p1, p2, p3, p4 
+            };
+            g.FillPolygon(Brushes.Black, forPedestrian1);
+
+            // bikin traffic lights untuk pejalan kaki (box)
+            PointF p5 = new PointF(950, 175);
+            PointF p6 = new PointF(995, 175);
+            PointF p7 = new PointF(995, 275);
+            PointF p8 = new PointF(950, 275);
+
+            //diubah menjadi array
+            PointF[] forPedestrian2 ={
+                p5, p6, p7, p8
+            };
+            g.FillPolygon(Brushes.Black, forPedestrian2);
+
+
             // zebracross
             int xZebracross = 140;
             while(true)
@@ -125,25 +154,33 @@ namespace zebraCross
                 positionX += 7;
                 e.Graphics.DrawImage(walk_Frame2Draw(), positionX, positionY);
             }
+
+            if (carTimer.Enabled == true)
+            {
+                car1.Top -= 10;
+            }
+        }
+
+        private void car_Animator()
+        {
+            carTimer.Interval = 105;
+            carTimer.Tick += timer1_Tick;
+            carTimer.Start();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // lampu hijau
-            walkTimer.Stop();
+            carTimer.Stop();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // lampu kuning
-            positionX = 100;
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // lampu merah
-            walk_Animator();
-
+            car_Animator();
         }
 
         private void walk_Animator()
@@ -173,9 +210,24 @@ namespace zebraCross
             return walkFrame;
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
-
+            walkTimer.Stop();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            walk_Animator();
+        }
+
+        private void car1_LocationChanged(object sender, EventArgs e)
+        {
+            if (car1.Top < 110)
+            {
+                carTimer.Stop();
+            }
+        }
+
+    
     }
 }
