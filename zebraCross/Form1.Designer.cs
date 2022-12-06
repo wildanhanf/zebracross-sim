@@ -111,7 +111,7 @@
             // car1
             // 
             this.car1.Image = global::zebraCross.Properties.Resources.carOrange_removebg;
-            this.car1.Location = new System.Drawing.Point(391, 763);
+            this.car1.Location = new System.Drawing.Point(411, 840);
             this.car1.Name = "car1";
             this.car1.Size = new System.Drawing.Size(174, 228);
             this.car1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
