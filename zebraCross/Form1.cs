@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,9 +12,11 @@ namespace zebraCross
         Bitmap walkFrame;
         Bitmap[] walkFrames;
         Timer walkTimer = new Timer();
-        Timer carTimer = new Timer();
-        float positionX = 100;
-        float positionY = 350;
+        Timer carTimer1 = new Timer();
+        Timer carTimer2 = new Timer();
+
+        Boolean isCrossing = false;
+        Boolean isResetting = false;
         int walkSpriteIndex = 0;
 
 
@@ -27,23 +24,26 @@ namespace zebraCross
         {
             InitializeComponent();
             this.Text = "Mini Project: Zebra Cross Simulation";
+            this.MinimizeBox = false;
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             //auto maximized window ke screen desktop
             // this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.FlatAppearance.BorderSize = 0;
+            carRedLight.FlatStyle = FlatStyle.Flat;
+            carRedLight.FlatAppearance.BorderSize = 0;
 
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.FlatAppearance.BorderSize = 0;
+            carYellowLight.FlatStyle = FlatStyle.Flat;
+            carYellowLight.FlatAppearance.BorderSize = 0;
 
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.FlatAppearance.BorderSize = 0;
+            carGreenLight.FlatStyle = FlatStyle.Flat;
+            carGreenLight.FlatAppearance.BorderSize = 0;
 
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.FlatAppearance.BorderSize = 0;
+            pedestrianRedLight.FlatStyle = FlatStyle.Flat;
+            pedestrianRedLight.FlatAppearance.BorderSize = 0;
 
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.FlatAppearance.BorderSize = 0;
+            pedestrianGreenLight.FlatStyle = FlatStyle.Flat;
+            pedestrianGreenLight.FlatAppearance.BorderSize = 0;
 
             // split walking sprite
             walkFrames = new Bitmap[] {
@@ -51,7 +51,12 @@ namespace zebraCross
                 Properties.Resources.walk_4,Properties.Resources.walk_5,
             };
 
-            panel1.BringToFront();
+            // lower inactive light opacity
+            carRedLight.BackColor = ControlPaint.Dark(Color.Red, 50f);
+            carYellowLight.BackColor = ControlPaint.Dark(Color.Yellow, 50f);
+            pedestrianGreenLight.BackColor = ControlPaint.Dark(Color.Lime, 50f);
+
+            car_StartAnimation();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -59,58 +64,79 @@ namespace zebraCross
             Graphics g = CreateGraphics();
 
             // walking
-            if(walkTimer.Enabled == true)
+            if (walkTimer.Enabled == true)
             {
-                positionX += 7;
-                pedestrian.Left += 14;
+                pedestrian.Left += 10;
                 pedestrian.Image = walk_Frame2Draw();
             }
 
-            if (carTimer.Enabled == true)
+            if (carTimer1.Enabled == true)
             {
-                car1.Top -= rng.Next(20,30);
-                car2.Top -= rng.Next(20,30);
+                car1.Top -= rng.Next(20, 30);
+                car2.Top -= rng.Next(20, 30);
+
             }
         }
 
-        private void car_Animator()
+        private void car_StartAnimation()
         {
-            carTimer.Interval = 150;
-            carTimer.Tick += timer2_Tick;
-            carTimer.Start();
+            carTimer1.Interval = 105;
+            carTimer1.Tick += timerTick;
+            carTimer1.Start();
+
+            carTimer2.Interval = 105;
+            carTimer2.Tick += timerTick;
+            carTimer2.Start();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void pedestrian_StartAnimation()
         {
-            carTimer.Stop();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            car_Animator();
-        }
-
-        private void walk_Animator()
-        {
-            walkTimer.Interval = 105;
-            walkTimer.Tick += timer1_Tick;
+            walkTimer.Interval = 55;
+            walkTimer.Tick += timerTick;
             walkTimer.Start();
         }
 
-
-        private void timer1_Tick(object sender, EventArgs e)
+        private void toggleCarTrafficLight(TrafficLight color)
         {
-            Invalidate();
+            switch (color)
+            {
+                case TrafficLight.Red:
+                    carRedLight.BackColor = Color.Red;
+                    carYellowLight.BackColor = ControlPaint.Dark(Color.Yellow, 50f);
+                    carGreenLight.BackColor = ControlPaint.Dark(Color.Lime, 50f);
+                    break;
+                case TrafficLight.Yellow:
+                    carRedLight.BackColor = ControlPaint.Dark(Color.Red, 50f);
+                    carYellowLight.BackColor = Color.Yellow;
+                    carGreenLight.BackColor = ControlPaint.Dark(Color.Lime, 50f);
+                    break;
+                case TrafficLight.Green:
+                    carRedLight.BackColor = ControlPaint.Dark(Color.Red, 50f);
+                    carYellowLight.BackColor = ControlPaint.Dark(Color.Yellow, 50f);
+                    carGreenLight.BackColor = Color.Lime;
+                    break;
+            }
+        }
+
+        private void togglePedestrianTrafficLight(TrafficLight color)
+        {
+            switch (color)
+            {
+                case TrafficLight.Red:
+                    pedestrianRedLight.BackColor = Color.Red;
+                    pedestrianGreenLight.BackColor = ControlPaint.Dark(Color.Lime, 50f);
+                    break;
+              
+                case TrafficLight.Green:
+                    pedestrianRedLight.BackColor = ControlPaint.Dark(Color.Red, 50f);
+                    pedestrianGreenLight.BackColor = Color.Lime;
+                    break;
+            }
         }
 
         private Bitmap walk_Frame2Draw()
         {
-            if(walkSpriteIndex < walkFrames.Length)
+            if (walkSpriteIndex < walkFrames.Length)
             {
                 walkFrame = walkFrames[walkSpriteIndex];
                 walkSpriteIndex++;
@@ -122,35 +148,76 @@ namespace zebraCross
             return walkFrame;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnGreen_Click(object sender, EventArgs e)
         {
-            walkTimer.Stop();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            walk_Animator();
+            isCrossing = true;
+            toggleCarTrafficLight(TrafficLight.Yellow);
         }
 
         private void car1_LocationChanged(object sender, EventArgs e)
         {
             if (car1.Top < -300)
             {
-                car1.Top = rng.Next(600,1400);
+                car1.Top = rng.Next(600, 1400);
             }
 
-            if(car2.Top < -300)
+            if (isCrossing)
+            {
+                if(car1.Top < 620 || car1.Top > 0)
+                {
+                    carTimer1.Stop();
+                    togglePedestrianTrafficLight(TrafficLight.Green);
+                    toggleCarTrafficLight(TrafficLight.Red);
+                    pedestrian_StartAnimation();
+                }
+            }
+        }
+
+        private void car2_LocationChanged(object sender, EventArgs e)
+        {
+            if (car2.Top < -300)
             {
                 car2.Top = rng.Next(600, 1400);
             }
+
+            if (isCrossing)
+            {
+                if(car2.Top < 620 || car2.Top > 0)
+                {
+                    carTimer2.Stop();
+                    togglePedestrianTrafficLight(TrafficLight.Green);
+                    toggleCarTrafficLight(TrafficLight.Red);
+                    pedestrian_StartAnimation();
+                }
+            }
         }
 
-        private void timer2_Tick(object sender, EventArgs e)
+        private void pedestrian_LocationChanged(object sender, EventArgs e)
         {
-            Invalidate();
+            if (pedestrian.Left > 1200)
+            {
+                pedestrian.Left = -10;
+                isResetting = true;
+                isCrossing = false;
+                toggleCarTrafficLight(TrafficLight.Yellow);
+                togglePedestrianTrafficLight(TrafficLight.Red);
+            }
+
+            if(isResetting)
+            {
+                if(pedestrian.Left >= 20)
+                {
+                    isResetting = false;
+                    walkTimer.Stop();
+                    pedestrian.Image = walkFrames[0];
+                    Task.Delay(2000).Wait();
+                    toggleCarTrafficLight(TrafficLight.Green);
+                    car_StartAnimation();
+                }
+            }
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void bgPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
@@ -246,12 +313,9 @@ namespace zebraCross
             }
         }
 
-        private void pedestrian_LocationChanged(object sender, EventArgs e)
+        private void timerTick(object sender, EventArgs e)
         {
-            if (pedestrian.Left > 1200)
-            {
-                pedestrian.Left = -10;
-            }
+            Invalidate();
         }
     }
 }
