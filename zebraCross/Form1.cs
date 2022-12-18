@@ -17,6 +17,8 @@ namespace zebraCross
 
         Boolean isCrossing = false;
         Boolean isResetting = false;
+        Boolean car1PassZebracross = false;
+        Boolean car2PassZebracross = false;
         int walkSpriteIndex = 0;
 
 
@@ -73,8 +75,11 @@ namespace zebraCross
             if (carTimer1.Enabled == true)
             {
                 car1.Top -= rng.Next(20, 30);
-                car2.Top -= rng.Next(20, 30);
+            }
 
+            if (carTimer2.Enabled == true)
+            {
+                car2.Top -= rng.Next(20, 30);
             }
         }
 
@@ -126,7 +131,7 @@ namespace zebraCross
                     pedestrianRedLight.BackColor = Color.Red;
                     pedestrianGreenLight.BackColor = ControlPaint.Dark(Color.Lime, 50f);
                     break;
-              
+
                 case TrafficLight.Green:
                     pedestrianRedLight.BackColor = ControlPaint.Dark(Color.Red, 50f);
                     pedestrianGreenLight.BackColor = Color.Lime;
@@ -158,18 +163,25 @@ namespace zebraCross
         {
             if (car1.Top < -300)
             {
-                car1.Top = rng.Next(600, 1400);
+                car1PassZebracross = false;
+                car1.Top = rng.Next(700, 1400);
+            }
+
+            if (car1.Top < 600)
+            {
+                car1PassZebracross = true;
             }
 
             if (isCrossing)
             {
-                if(car1.Top < 620 || car1.Top > 0)
+                if (!car1PassZebracross && car1.Top < 625)
                 {
                     carTimer1.Stop();
                     togglePedestrianTrafficLight(TrafficLight.Green);
                     toggleCarTrafficLight(TrafficLight.Red);
                     pedestrian_StartAnimation();
                 }
+
             }
         }
 
@@ -177,12 +189,18 @@ namespace zebraCross
         {
             if (car2.Top < -300)
             {
-                car2.Top = rng.Next(600, 1400);
+                car2PassZebracross = false;
+                car2.Top = rng.Next(700, 1400);
+            }
+
+            if (car2.Top < 600)
+            {
+                car2PassZebracross = true;
             }
 
             if (isCrossing)
             {
-                if(car2.Top < 620 || car2.Top > 0)
+                if (!car2PassZebracross && car2.Top < 625)
                 {
                     carTimer2.Stop();
                     togglePedestrianTrafficLight(TrafficLight.Green);
@@ -203,14 +221,14 @@ namespace zebraCross
                 togglePedestrianTrafficLight(TrafficLight.Red);
             }
 
-            if(isResetting)
+            if (isResetting)
             {
-                if(pedestrian.Left >= 20)
+                if (pedestrian.Left >= 20)
                 {
                     isResetting = false;
                     walkTimer.Stop();
                     pedestrian.Image = walkFrames[0];
-                    Task.Delay(2000).Wait();
+                    Task.Delay(1000).Wait();
                     toggleCarTrafficLight(TrafficLight.Green);
                     car_StartAnimation();
                 }
